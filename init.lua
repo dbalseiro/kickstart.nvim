@@ -661,6 +661,7 @@ require('lazy').setup({
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
+      ---@diagnostic disable-next-line: missing-fields
       require('mason-lspconfig').setup {
         handlers = {
           function(server_name)
@@ -840,13 +841,13 @@ require('lazy').setup({
     -- change the command in the config to whatever the name of that colorscheme is.
     --
     -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-      'catppuccin/nvim',
-      priority = 1000, -- Make sure to load this before all the other start plugins.
-      -- FIXME: Make a custom function to handle changing backgrounds
-      init = function()
-        vim.cmd.colorscheme 'catppuccin'
-        vim.cmd.hi 'Comment gui=none'
-      end,
+    'catppuccin/nvim',
+    priority = 1000, -- Make sure to load this before all the other start plugins.
+    -- FIXME: Make a custom function to handle changing backgrounds
+    init = function()
+      vim.cmd.colorscheme 'catppuccin'
+      vim.cmd.hi 'Comment gui=none'
+    end,
   },
 
   -- Highlight todo, notes, etc in comments
@@ -928,8 +929,8 @@ require('lazy').setup({
   -- require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
   -- require 'kickstart.plugins.autopairs',
-  -- require 'kickstart.plugins.neo-tree',
-  -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
+  require 'kickstart.plugins.neo-tree',
+  require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
@@ -941,6 +942,7 @@ require('lazy').setup({
   -- Or use telescope!
   -- In normal mode type `<space>sh` then write `lazy.nvim-plugin`
   -- you can continue same window with `<space>sr` which resumes last telescope search
+  ---@diagnostic disable-next-line: missing-fields
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
