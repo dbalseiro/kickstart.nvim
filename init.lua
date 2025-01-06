@@ -189,6 +189,18 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
+vim.keymap.set('n', ',,', '<c-^>', { desc = 'Quick switch to last edited buffer' })
+vim.keymap.set('n', ',.', ':only<cr>', { desc = 'Leave only one buffer visible' })
+
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.expandtab = true
+vim.opt.autoindent = true
+vim.opt.softtabstop = 2
+-- I don't like text wrapping
+vim.opt.wrap = false
+vim.opt.colorcolumn = '132'
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -589,6 +601,17 @@ require('lazy').setup({
         end,
       })
 
+      vim.diagnostic.config {
+        virtual_text = false,
+        underline = true,
+        signs = true,
+      }
+      vim.api.nvim_create_autocmd('CursorHold', {
+        callback = function()
+          vim.diagnostic.open_float()
+        end,
+      })
+
       -- Change diagnostic symbols in the sign column (gutter)
       -- if vim.g.have_nerd_font then
       --   local signs = { ERROR = '', WARN = '', INFO = '', HINT = '' }
@@ -787,7 +810,7 @@ require('lazy').setup({
           -- Accept ([y]es) the completion.
           --  This will auto-import if your LSP supports it.
           --  This will expand snippets if the LSP sent a snippet.
-          ['<C-y>'] = cmp.mapping.confirm { select = true },
+          ['<Enter>'] = cmp.mapping.confirm { select = true },
 
           -- If you prefer more traditional completion keymaps,
           -- you can uncomment the following lines
@@ -843,7 +866,7 @@ require('lazy').setup({
     -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
     'catppuccin/nvim',
     priority = 1000, -- Make sure to load this before all the other start plugins.
-    -- FIXME: Make a custom function to handle changing backgrounds
+    -- WIP: Make a custom function to handle changing backgrounds
     init = function()
       vim.cmd.colorscheme 'catppuccin'
       vim.cmd.hi 'Comment gui=none'
@@ -851,7 +874,14 @@ require('lazy').setup({
   },
 
   -- Highlight todo, notes, etc in comments
-  { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
+  {
+    'folke/todo-comments.nvim',
+    event = 'VimEnter',
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    opts = { keywords = {
+      WIP = { icon = ' ', color = 'warning' },
+    } },
+  },
 
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
@@ -870,6 +900,8 @@ require('lazy').setup({
       -- - sd'   - [S]urround [D]elete [']quotes
       -- - sr)'  - [S]urround [R]eplace [)] [']
       require('mini.surround').setup()
+      require('mini.icons').setup()
+      require('mini.tabline').setup()
 
       -- Simple and easy statusline.
       --  You could remove this setup call if you don't like it,
