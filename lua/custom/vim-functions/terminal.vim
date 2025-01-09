@@ -10,7 +10,7 @@ au TermOpen * setlocal nonumber norelativenumber
 """""""""
 " SHIMS "
 """""""""
-nmap ,gf ,.<c-w>F<c-w>H:vertical resize +18<cr><c-l>A<a-h>
+nmap ,gf ,.<c-w>F<c-w>H:vertical resize +18<cr><c-l>A<c-h>
 nmap ,n <c-l>{j,gfzz
 nmap <c-leftmouse> <leftmouse>,gf
 

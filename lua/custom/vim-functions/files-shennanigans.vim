@@ -98,3 +98,8 @@ autocmd BufWritePre *
 
 command! SwitchAutotrim let g:autotrim = !g:autotrim | call PrintAutotrimStatus()
 
+" Juvo schema files look (kind of) like graphql
+augroup schema_ft
+  au!
+  autocmd BufNewFile,BufRead *.schema set ft=graphql
+augroup END
