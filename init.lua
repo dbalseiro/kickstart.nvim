@@ -113,7 +113,7 @@ vim.opt.autoindent = true
 vim.opt.softtabstop = 2
 -- I don't like text wrapping
 vim.opt.wrap = false
-vim.opt.colorcolumn = '132'
+-- vim.opt.colorcolumn = '132'
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
@@ -518,6 +518,12 @@ require('lazy').setup({
       vim.diagnostic.config {
         virtual_text = false,
         underline = true,
+        float = {
+          show_header = true,
+          source = 'if_many',
+          border = 'rounded',
+          focusable = false,
+        },
         signs = true,
       }
       vim.api.nvim_create_autocmd('CursorHold', {
@@ -597,6 +603,30 @@ require('lazy').setup({
         'stylua', -- Used to format Lua code
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
+
+      -- Set borders for floating windowslocal orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
+      vim.cmd [[autocmd! ColorScheme * highlight NormalFloat guibg=#1f2335]]
+      vim.cmd [[autocmd! ColorScheme * highlight FloatBorder guifg=white guibg=#1f2335]]
+
+      local border = {
+        { '╭', 'FloatBorder' },
+        { '─', 'FloatBorder' },
+        { '╮', 'FloatBorder' },
+        { '│', 'FloatBorder' },
+        { '╯', 'FloatBorder' },
+        { '─', 'FloatBorder' },
+        { '╰', 'FloatBorder' },
+        { '│', 'FloatBorder' },
+      }
+
+      local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
+
+      ---@diagnostic disable-next-line: duplicate-set-field
+      function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+        opts = opts or {}
+        opts.border = opts.border or border
+        return orig_util_open_floating_preview(contents, syntax, opts, ...)
+      end
 
       ---@diagnostic disable-next-line: missing-fields
       require('mason-lspconfig').setup {
