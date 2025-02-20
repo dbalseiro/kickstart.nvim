@@ -61,7 +61,7 @@ function! RenameFile()
     redraw!
   endif
 endfunction
-map ,r :call RenameFile()<cr>
+map <f2> :call RenameFile()<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " RETAB the whole file
