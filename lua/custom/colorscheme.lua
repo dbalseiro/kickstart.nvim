@@ -1,7 +1,7 @@
 local M = {}
 
 M.setup = function()
-  vim.cmd.colorscheme 'catppuccin'
+  vim.cmd.colorscheme 'catppuccin-mocha'
   vim.cmd.hi 'Comment gui=none'
   require('catppuccin').setup {
     styles = {
