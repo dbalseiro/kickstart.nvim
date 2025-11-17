@@ -700,7 +700,8 @@ require('lazy').setup({
             -- by the server configuration above. Useful when disabling
             -- certain features of an LSP (for example, turning off formatting for ts_ls)
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-            require('lspconfig')[server_name].setup(server)
+            -- require('lspconfig')[server_name].setup(server)
+            vim.lspconfig[server_name].setup(server)
           end,
         },
       }
@@ -1063,21 +1064,22 @@ require('custom.colorscheme').setup()
 -- Custom vim stuff using vim languages (legacy configuration from old days and i don't wanna migrate to LUA)
 require('custom.vim').setup()
 
-require('lspconfig').denols.setup {
-  root_dir = require('lspconfig.util').root_pattern('deno.json', 'deno.jsonc'),
-  init_options = {
-    lint = true,
-    unstable = true,
-    suggest = {
-      imports = {
-        hosts = {
-          ['https://deno.land'] = true,
-          ['https://esm.sh'] = true,
-        },
-      },
-    },
-  },
-}
+-- require('lspconfig').denols.setup {
+--   root_dir = require('lspconfig.util').root_pattern('deno.json', 'deno.jsonc'),
+--   init_options = {
+--     lint = true,
+--     unstable = true,
+--     suggest = {
+--       imports = {
+--         hosts = {
+--           ['https://deno.land'] = true,
+--           ['https://esm.sh'] = true,
+--         },
+--       },
+--     },
+--   },
+-- }
+-- print(vim.inspect(vim.lsp.config.denols))
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
